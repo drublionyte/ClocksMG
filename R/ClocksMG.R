@@ -19,7 +19,7 @@ horwath <- function(betas) {
   anti.trafo(colSums(tt,na.rm=TRUE)+0.696)
 }
 
-zhang_en_2008 <- function(betas) {
+zhang_en_2019 <- function(betas) {
   betas.norm <- apply(betas,1,scale)
   rownames(betas.norm) <- colnames(betas)
 
@@ -30,7 +30,7 @@ zhang_en_2008 <- function(betas) {
   colSums(tt,na.rm=TRUE)+65.79295
 }
 
-zhang_blup_2008 <- function(betas) {
+zhang_blup_2019 <- function(betas) {
   betas.norm <- apply(betas,1,scale)
   rownames(betas.norm) <- colnames(betas)
 
