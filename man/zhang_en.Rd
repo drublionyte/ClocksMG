@@ -2,7 +2,7 @@
 \alias{zhang_en}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+zhang_en epigenetic clock
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
@@ -47,9 +47,9 @@ zhang_en(betas)
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (betas) 
+function (betas)
 {
-    Zhang_en_CpGs <- read.table("data/Zhang_en_CpGs.coef", stringsAsFactor = F, 
+    Zhang_en_CpGs <- read.table("data/Zhang_en_CpGs.coef", stringsAsFactor = F,
         header = T)
     intercept <- Zhang_en_CpGs[1, 2]
     betas.norm <- apply(t(betas), 1, scale)
