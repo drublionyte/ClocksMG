@@ -54,7 +54,7 @@ zhang_blup <- function(betas) {
 wu <- function(betas) {
   Wu_CpGs <- read.table("CpGs/Wu_CpGs.coef",stringsAsFactor=F,header=T)
   intercept <- Wu_CpGs[1, 2]
-  coefs <- setNames(Horvath1_CpGs$CoefficientTraining, Horvath1_CpGs$CpGmarker)
+  coefs <- setNames(Wu_CpGs$CoefficientTraining, Wu_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
 
   betas <- betas[CpGs, ]
