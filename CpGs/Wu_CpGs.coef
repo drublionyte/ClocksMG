@@ -1,4 +1,5 @@
-CpGs	Active.coefficients
+CpGmarker	CoefficientTraining
+intercept	2.376853787
 cg00343092	-1.135997653
 cg00563932	-2.254967927
 cg00571634	1.205130235

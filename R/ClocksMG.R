@@ -1,4 +1,6 @@
 install.packages("ClocksMG", repos = "https://github.com/drublionyte/ClocksMG")
+setwd("C:/Users/admin-pc/Documents/GitHub/ClocksMG")
+betas <- readRDS("beta.input")
 
 anti.trafo <- function(x, adult.age=20) {
   ifelse(
@@ -9,6 +11,49 @@ anti.trafo <- function(x, adult.age=20) {
 }
 
 horwath <- function(betas) {
+  Horvath_CpGs <- read.table("CpGs/Horvath_CpGs.coef",stringsAsFactor=F,header=T)
+  intercept <- Horvath_CpGs[1, 2]
+  coefs <- setNames(Horvath_CpGs$CoefficientTraining, Horvath_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
+}
+
+zhang_en <- function(betas) {
+  Zhang_en_CpGs <- read.table("CpGs/Zhang_en_CpGs.coef",stringsAsFactor=F,header=T)
+  intercept <- Zhang_en_CpGs[1, 2]
+  betas.norm <- apply(t(betas),1,scale)
+  rownames(betas.norm) <- rownames(betas)
+
+  coefs <- setNames(Zhang_en_CpGs$CoefficientTraining, Zhang_en_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  tt <- betas.norm[CpGs, ] * coefs[CpGs]
+  colSums(tt,na.rm=TRUE) + intercept
+}
+
+
+zhang_blup <- function(betas) {
+  Zhang_blup_CpGs <- read.table("CpGs/Zhang_blup_CpGs.coef",stringsAsFactor=F,header=T)
+  intercept <- Zhang_blup_CpGs[1, 2]
+  betas.norm <- apply(t(betas),1,scale)
+  rownames(betas.norm) <- colnames(betas)
+
+  coefs <- setNames(Zhang_blup_CpGs$CoefficientTraining, Zhang_blup_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  tt <- betas.norm[CpGs, ] * coefs[CpGs]
+  colSums(tt,na.rm=TRUE) + intercept
+}
+
+
+wu <- function(betas) {
+  Wu_CpGs <- read.table("CpGs/Wu_CpGs.coef",stringsAsFactor=F,header=T)
+  intercept <- Wu_CpGs[1, 2]
   coefs <- setNames(Horvath1_CpGs$CoefficientTraining, Horvath1_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
 
@@ -16,38 +61,81 @@ horwath <- function(betas) {
   coefs <- coefs[CpGs]
 
   tt <- betas * coefs
-  anti.trafo(colSums(tt,na.rm=TRUE)+0.696)
+  anti.trafo(colSums(tt,na.rm=TRUE) + intercept, adult.age = 48)/12
 }
 
-zhang_en_2019 <- function(betas) {
-  betas.norm <- apply(betas,1,scale)
-  rownames(betas.norm) <- colnames(betas)
 
-  coefs <- setNames(encoef$CoefficientTraining, encoef$CpGmarker)
-  CpGs <- intersect(names(coefs), colnames(betas))
-
-  tt <- betas.norm[CpGs, ] * coefs[CpGs]
-  colSums(tt,na.rm=TRUE)+65.79295
-}
-
-zhang_blup_2019 <- function(betas) {
-  betas.norm <- apply(betas,1,scale)
-  rownames(betas.norm) <- colnames(betas)
-
-  coefs <- setNames(blupcoef$CoefficientTraining, blupcoef$CpGmarker)
-  CpGs <- intersect(names(coefs), colnames(betas))
-
-  tt <- betas.norm[CpGs, ] * coefs[CpGs]
-  colSums(tt,na.rm=TRUE)+91.15396
-}
-
-Wu <- function(betas) {
-  coefs <- setNames(Horvath1_CpGs$CoefficientTraining, Horvath1_CpGs$CpGmarker)
+bocklandt <- function(betas) {
+  Bocklandt_CpGs <- read.table("CpGs/Bocklandt_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  coefs <- setNames(Bocklandt_CpGs$CoefficientTraining, Bocklandt_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
 
   betas <- betas[CpGs, ]
   coefs <- coefs[CpGs]
 
   tt <- betas * coefs
-  anti.trafo(colSums(tt,na.rm=TRUE)+2.376853787, adult.age = 48)/12
+  colSums(tt, na.rm = TRUE)
+}
+
+garagnani <- function(betas) {
+  Garagnani_CpGs <- read.table("CpGs/Garagnani_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  coefs <- setNames(Garagnani_CpGs$CoefficientTraining, Garagnani_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  colSums(tt, na.rm = TRUE)
+}
+
+hannum <- function(betas) {
+  Hannum_CpGs <- read.table("CpGs/Hannum_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  coefs <- setNames(Hannum_CpGs$CoefficientTraining, Hannum_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  colSums(tt, na.rm = TRUE)
+}
+
+lin <- function(betas) {
+  Lin_CpGs <- read.table("CpGs/Lin_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  intercept <- Lin_CpGs[1, 2]
+  coefs <- setNames(Lin_CpGs$CoefficientTraining, Lin_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  colSums(tt, na.rm = TRUE) + intercept
+}
+
+vidalbralo <- function(betas) {
+  VidalBralo_CpGs <- read.table("CpGs/VidalBralo_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  intercept <- VidalBralo_CpGs[1, 2]
+  coefs <- setNames(VidalBralo_CpGs$CoefficientTraining, VidalBralo_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  colSums(tt, na.rm = TRUE) + intercept
+}
+
+weidner <- function(betas) {
+  Weidner_CpGs <- read.table("CpGs/Weidner_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  intercept <- Weidner_CpGs[1, 2]
+  coefs <- setNames(Weidner_CpGs$CoefficientTraining, Weidner_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  colSums(tt, na.rm = TRUE) + intercept
 }
