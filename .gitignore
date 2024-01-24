@@ -3,3 +3,5 @@ R/.Rhistory
 beta.input
 .Rhistory
 .Rproj.user
+.Rbuildignore
+.gitignore
