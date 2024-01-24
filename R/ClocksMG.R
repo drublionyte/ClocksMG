@@ -1,3 +1,5 @@
+
+
 anti.trafo <- function(x, adult.age=20) {
   ifelse(
     x < 0,
@@ -7,17 +9,17 @@ anti.trafo <- function(x, adult.age=20) {
 }
 
 horwath <- function(betas) {
-  data_path <- system.file("data", "Horvath_CpGs.coef", package = "ClocksMG")
-  Horvath_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
-  intercept <- Horvath_CpGs[1, 2]
-  coefs <- setNames(Horvath_CpGs$CoefficientTraining, Horvath_CpGs$CpGmarker)
-  CpGs <- intersect(names(coefs), rownames(betas))
+  data_path <- system.file("data", "Horvath_CpGs.coef", package = "ClocksMG") #nustatome path i duomenis
+  Horvath_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE) #nuskaitome duomenis
+  intercept <- Horvath_CpGs[1, 2] #nuskaitom intercept, pirma eilute, antras stulpelis
+  coefs <- setNames(Horvath_CpGs$CoefficientTraining, Horvath_CpGs$CpGmarker) #priskiriame citozinu reiksmems pavadinimus
+  CpGs <- intersect(names(coefs), rownames(betas)) #atrenkam citozinus
 
-  betas <- betas[CpGs, ]
-  coefs <- coefs[CpGs]
+  betas <- betas[CpGs, ] #iš duomenų išrenkam bendrus citozinus
+  coefs <- coefs[CpGs]   #iš horvath'o citozinų išrenkam bendrus citozinus
 
-  tt <- betas * coefs
-  anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
+  tt <- betas * coefs #bendrus citozinus sudauginam
+  anti.trafo(colSums(tt,na.rm=TRUE)+intercept) #sumuojam, pridedam intercept, ir tada transformuoti
 }
 
 zhang_en <- function(betas) {
