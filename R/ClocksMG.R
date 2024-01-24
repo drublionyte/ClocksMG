@@ -20,7 +20,8 @@ horwath <- function(betas) {
 }
 
 zhang_en <- function(betas) {
-  Zhang_en_CpGs <- read.table("data/Zhang_en_CpGs.coef",stringsAsFactor=F,header=T)
+  data_path <- system.file("data", "Zhang_en_CpGs.coef", package = "ClocksMG")
+  Zhang_en_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   intercept <- Zhang_en_CpGs[1, 2]
   betas.norm <- apply(t(betas),1,scale)
   rownames(betas.norm) <- rownames(betas)
