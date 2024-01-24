@@ -1,3 +1,11 @@
+export(anti.trafo)
+export(horwath)
 export(zhang_en)
-
-
+export(zhang_blup)
+export(wu)
+export(bocklandt)
+export(garagnani)
+export(hannum)
+export(lin)
+export(vidalbralo)
+export(weidner)

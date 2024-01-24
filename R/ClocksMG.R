@@ -7,7 +7,8 @@ anti.trafo <- function(x, adult.age=20) {
 }
 
 horwath <- function(betas) {
-  Horvath_CpGs <- read.table("data/Horvath_CpGs.coef",stringsAsFactor=F,header=T)
+  data_path <- system.file("data", "Horvath_CpGs.coef", package = "ClocksMG")
+  Horvath_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   intercept <- Horvath_CpGs[1, 2]
   coefs <- setNames(Horvath_CpGs$CoefficientTraining, Horvath_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
@@ -35,7 +36,8 @@ zhang_en <- function(betas) {
 
 
 zhang_blup <- function(betas) {
-  Zhang_blup_CpGs <- read.table("data/Zhang_blup_CpGs.coef",stringsAsFactor=F,header=T)
+  data_path <- system.file("data", "Zhang_blup_CpGs.coef", package = "ClocksMG")
+  Zhang_blup_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   intercept <- Zhang_blup_CpGs[1, 2]
   betas.norm <- apply(t(betas),1,scale)
   rownames(betas.norm) <- colnames(betas)
@@ -49,7 +51,8 @@ zhang_blup <- function(betas) {
 
 
 wu <- function(betas) {
-  Wu_CpGs <- read.table("data/Wu_CpGs.coef",stringsAsFactor=F,header=T)
+  data_path <- system.file("data", "Wu_CpGs.coef", package = "ClocksMG")
+  Wu_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   intercept <- Wu_CpGs[1, 2]
   coefs <- setNames(Wu_CpGs$CoefficientTraining, Wu_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
@@ -63,7 +66,8 @@ wu <- function(betas) {
 
 
 bocklandt <- function(betas) {
-  Bocklandt_CpGs <- read.table("data/Bocklandt_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  data_path <- system.file("data", "Bocklandt_CpGs.coef", package = "ClocksMG")
+  Bocklandt_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   coefs <- setNames(Bocklandt_CpGs$CoefficientTraining, Bocklandt_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
 
@@ -75,7 +79,8 @@ bocklandt <- function(betas) {
 }
 
 garagnani <- function(betas) {
-  Garagnani_CpGs <- read.table("data/Garagnani_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  data_path <- system.file("data", "Garagnani_CpGs.coef", package = "ClocksMG")
+  Garagnani_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   coefs <- setNames(Garagnani_CpGs$CoefficientTraining, Garagnani_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
 
@@ -87,7 +92,8 @@ garagnani <- function(betas) {
 }
 
 hannum <- function(betas) {
-  Hannum_CpGs <- read.table("data/Hannum_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  data_path <- system.file("data", "Hannum_CpGs.coef", package = "ClocksMG")
+  Hannum_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   coefs <- setNames(Hannum_CpGs$CoefficientTraining, Hannum_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
 
@@ -99,7 +105,8 @@ hannum <- function(betas) {
 }
 
 lin <- function(betas) {
-  Lin_CpGs <- read.table("data/Lin_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  data_path <- system.file("data", "Lin_CpGs.coef", package = "ClocksMG")
+  Lin_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   intercept <- Lin_CpGs[1, 2]
   coefs <- setNames(Lin_CpGs$CoefficientTraining, Lin_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
@@ -112,7 +119,8 @@ lin <- function(betas) {
 }
 
 vidalbralo <- function(betas) {
-  VidalBralo_CpGs <- read.table("data/VidalBralo_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  data_path <- system.file("data", "VidalBralo_CpGs.coef", package = "ClocksMG")
+  VidalBralo_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   intercept <- VidalBralo_CpGs[1, 2]
   coefs <- setNames(VidalBralo_CpGs$CoefficientTraining, VidalBralo_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
@@ -125,7 +133,8 @@ vidalbralo <- function(betas) {
 }
 
 weidner <- function(betas) {
-  Weidner_CpGs <- read.table("data/Weidner_CpGs.coef", stringsAsFactors = FALSE, header = TRUE)
+  data_path <- system.file("data", "Weidner_CpGs.coef", package = "ClocksMG")
+  Weidner_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
   intercept <- Weidner_CpGs[1, 2]
   coefs <- setNames(Weidner_CpGs$CoefficientTraining, Weidner_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
