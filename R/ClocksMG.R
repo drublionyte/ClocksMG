@@ -1,4 +1,4 @@
-anti.trafo <- function(x, adult.age=20) {
+epi_anti.trafo <- function(x, adult.age=20) {
   ifelse(
     x < 0,
     (1 + adult.age) * exp(x) - 1,
@@ -6,9 +6,35 @@ anti.trafo <- function(x, adult.age=20) {
   )
 }
 
+epi_universal <- function(betas, model_path) {
+  coefficients <- read.table(model_path ,stringsAsFactor=F,header=T)
+  intercept <- coefficients[1, 2]
+  coefs <- setNames(coefficients$CoefficientTraining, coefficients$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  colSums(tt,na.rm=TRUE)+intercept
+}
+
+epi_universal_trafo <- function(betas, model_path) {
+  coefficients <- read.table(model_path ,stringsAsFactor=F,header=T)
+  intercept <- coefficients[1, 2]
+  coefs <- setNames(coefficients$CoefficientTraining, coefficients$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  epi_anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
+}
+
 epi_horvath <- function(betas) {
   data_path <- system.file("data", "Horvath_CpGs.coef", package = "ClocksMG")
-  Horvath_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
+  Horvath_CpGs <- read.table(data_path, header = TRUE)
   intercept <- Horvath_CpGs[1, 2]
   coefs <- setNames(Horvath_CpGs$CoefficientTraining, Horvath_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
@@ -22,9 +48,22 @@ epi_horvath <- function(betas) {
 
 epi_horvath_snb <- function(betas) {
   data_path <- system.file("data", "Horvath_snb_CpGs.coef", package = "ClocksMG")
-  Horvath_CpGs <- read.table(data_path, stringsAsFactors = FALSE, header = TRUE)
+  Horvath_CpGs <- read.table(data_path, header = TRUE)
   intercept <- Horvath_CpGs[1, 2]
   coefs <- setNames(Horvath_CpGs$CoefficientTraining, Horvath_CpGs$CpGmarker)
+  CpGs <- intersect(names(coefs), rownames(betas))
+
+  betas <- betas[CpGs, ]
+  coefs <- coefs[CpGs]
+
+  tt <- betas * coefs
+  anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
+}
+
+epi_intrin_clock <- function(betas) {
+  Intrin_CpGs <- system.file("data", "Intrin_CpGs.coef", package = "ClocksMG")
+  intercept <- Intrin_CpGs[1, 2]
+  coefs <- setNames(Intrin_CpGs$CoefficientTraining, Intrin_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
 
   betas <- betas[CpGs, ]
