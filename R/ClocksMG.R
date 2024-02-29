@@ -43,7 +43,7 @@ epi_horvath <- function(betas) {
   coefs <- coefs[CpGs]
 
   tt <- betas * coefs
-  anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
+  epi_anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
 }
 
 epi_horvath_snb <- function(betas) {
@@ -57,11 +57,12 @@ epi_horvath_snb <- function(betas) {
   coefs <- coefs[CpGs]
 
   tt <- betas * coefs
-  anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
+  epi_anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
 }
 
 epi_intrin_clock <- function(betas) {
-  Intrin_CpGs <- system.file("data", "Intrin_CpGs.coef", package = "ClocksMG")
+  data_path <- system.file("data", "Intrin_CpGs.coef", package = "ClocksMG")
+  Intrin_CpGs <- read.table(data_path, header = TRUE)
   intercept <- Intrin_CpGs[1, 2]
   coefs <- setNames(Intrin_CpGs$CoefficientTraining, Intrin_CpGs$CpGmarker)
   CpGs <- intersect(names(coefs), rownames(betas))
@@ -70,7 +71,7 @@ epi_intrin_clock <- function(betas) {
   coefs <- coefs[CpGs]
 
   tt <- betas * coefs
-  anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
+  epi_anti.trafo(colSums(tt,na.rm=TRUE)+intercept)
 }
 
 epi_zhang_en <- function(betas) {
@@ -112,7 +113,7 @@ epi_wu <- function(betas) {
   coefs <- coefs[CpGs]
 
   tt <- betas * coefs
-  anti.trafo(colSums(tt,na.rm=TRUE) + intercept, adult.age = 48)/12
+  epi_anti.trafo(colSums(tt,na.rm=TRUE) + intercept, adult.age = 48)/12
 }
 
 epi_bocklandt <- function(betas) {
